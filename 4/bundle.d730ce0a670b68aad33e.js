@@ -778,7 +778,7 @@ function createPhotosTemplate(photos) {
 function createDestinationDescription(pointDestinations) {
   return pointDestinations.map(item => `
   <h3 class="event__section-title  event__section-title--destination">${item.name}</h3>
-              <p class="event__destination-description">${item.description}</p>`);
+  <p class="event__destination-description">${item.description}</p>`);
 }
 
 //создаем шаблон поинта
@@ -951,8 +951,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function createTripListTemplate() {
   return `
-  <ul class="trip-events__list"></ul>
-  `;
+  <ul class="trip-events__list"></ul>`;
 }
 class PointsListView {
   getTemplate() {
@@ -1279,4 +1278,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.892fcb55e1119d69256b.js.map
+//# sourceMappingURL=bundle.d730ce0a670b68aad33e.js.map

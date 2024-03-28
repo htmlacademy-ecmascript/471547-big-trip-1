@@ -417,7 +417,7 @@ class TripPresenter {
     (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.render)(new _view_point_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
       point: this.points[0],
       pointOffers: this.offersModel.getByType(this.points[0].type),
-      pointDestinations: this.destinationsModel.getById(this.points[0].destination)
+      pointDestination: this.destinationsModel.getById(this.points[0].destination)
     }), this.pointItemComponent.getElement()); //определяем форму в первый li
 
     this.points.forEach(point => {
@@ -744,8 +744,8 @@ function createOffersTemplate(offers, type, id) {
 
 //создаем шаблон для списка направлений
 
-function createDestinationsList(pointDestinations, point) {
-  return pointDestinations.map(city => `
+function createDestinationsList(destinations, point) {
+  return destinations.map(city => `
   <input class="event__input  event__input--destination" id="event-destination-${point.id}" type="text" name="event-destination" value="${city.name}" list="destination-list-${point.id}">
     <datalist id="destination-list-${point.id}">
       <option value="${city.name}"></option>`).join('');
@@ -754,10 +754,10 @@ function createDestinationsList(pointDestinations, point) {
 //создаем шаблон для направления
 
 function createDestinationTemplate(destination) {
-  const photosTemplate = createPhotosTemplate(destination.photos);
-  const descripionTemplate = createDestinationDescription(destination.description);
+  const photosTemplate = createPhotosTemplate(destination);
+  const descriptionTemplate = createDestinationDescription(destination.description);
   return `<section class="event__section  event__section--destination">
-    ${descripionTemplate}
+    ${descriptionTemplate}
     ${photosTemplate}
   </section>`;
 }
@@ -775,15 +775,15 @@ function createPhotosTemplate(photos) {
 
 //создаем описание направления
 
-function createDestinationDescription(pointDestinations) {
-  return pointDestinations.map(item => `
+function createDestinationDescription(destinations) {
+  return destinations.map(item => `
   <h3 class="event__section-title  event__section-title--destination">${item.name}</h3>
   <p class="event__destination-description">${item.description}</p>`);
 }
 
 //создаем шаблон поинта
 
-function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM, pointOffers, pointDestinations) {
+function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM, pointOffers, destinations) {
   const {
     type,
     dateFrom,
@@ -794,8 +794,9 @@ function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_
 
   //направления
 
-  const destinationsList = createDestinationsList(_const_js__WEBPACK_IMPORTED_MODULE_1__.DESTINATIONS, point);
-  const destinationTemplate = createDestinationTemplate(pointDestinations);
+  const destinationsList = createDestinationsList(destinations, point);
+  const pointDestination = destinations.find(city => city.id === point.destination);
+  const destinationTemplate = createDestinationTemplate(pointDestination);
 
   //офферы
 
@@ -877,18 +878,14 @@ class PointFormView {
   constructor({
     point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM,
     pointOffers,
-    pointDestinations
+    destinations
   }) {
     this.point = point;
     this.pointOffers = pointOffers;
-    this.pointDestinations = pointDestinations;
+    this.pointDestination = destinations;
   }
   getTemplate() {
-    return createPointTemplate({
-      point: this.point,
-      pointDestinations: this.pointDestinations,
-      pointOffers: this.pointOffers
-    });
+    return createPointTemplate(this.point, this.destinations, this.pointOffers);
   }
   getElement() {
     if (!this.element) {
@@ -1278,4 +1275,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.d730ce0a670b68aad33e.js.map
+//# sourceMappingURL=bundle.0ff9e8dac4859739bacf.js.map

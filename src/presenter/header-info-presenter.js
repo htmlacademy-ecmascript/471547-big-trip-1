@@ -1,4 +1,4 @@
-import {render, RenderPosition} from '../src/render.js';
+import {render, RenderPosition} from '../render.js';
 
 import HeaderInfoView from '../view/header-info.js';
 
@@ -7,7 +7,7 @@ export default class HeaderInfoPresenter {
     this.headContainer = headContainer;
   }
 
-  init () {
+  init() {
     render (new HeaderInfoView, this.headContainer, RenderPosition.AFTERBEGIN);
   }
 }

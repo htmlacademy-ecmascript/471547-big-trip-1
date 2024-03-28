@@ -1,4 +1,4 @@
-import {render, RenderPosition} from '../src/render.js';
+import {render, RenderPosition} from '../render.js';
 
 import FiltersList from '../view/filters-list-view.js';
 
@@ -7,7 +7,7 @@ export default class HeaderFilterPresenter {
     this.headContainer = headContainer;
   }
 
-  init () {
+  init() {
     render (new FiltersList, this.headContainer, RenderPosition.BEFOREEND);
   }
 }

@@ -526,11 +526,11 @@ class MockData {
       length: _mock_mock_const_js__WEBPACK_IMPORTED_MODULE_1__.POINTS_COUNT
     }, () => {
       const type = (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomArrayElement)(_const_js__WEBPACK_IMPORTED_MODULE_0__.POINTS_TYPES);
-      const destination = (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomArrayElement)(this.destinations);
+      const destinationId = (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomArrayElement)(this.destinations).id;
       const hasOffers = (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomNumber)(0, 1);
       const offersByType = this.offers.find(offerByType => offerByType.type === type);
       const offersIds = hasOffers ? offersByType.offers.slice(0, (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomNumber)(0, _mock_mock_const_js__WEBPACK_IMPORTED_MODULE_1__.OFFERS_COUNT)).map(offer => offer.id) : [];
-      return (0,_mock_mock_point_js__WEBPACK_IMPORTED_MODULE_5__.createPoint)(type, offersIds, destination.id);
+      return (0,_mock_mock_point_js__WEBPACK_IMPORTED_MODULE_5__.createPoint)(type, offersIds, destinationId);
     });
   }
 }
@@ -1281,4 +1281,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.b553e5f6eed4f4e22559.js.map
+//# sourceMappingURL=bundle.ba2b4d86448dd7c2aa66.js.map

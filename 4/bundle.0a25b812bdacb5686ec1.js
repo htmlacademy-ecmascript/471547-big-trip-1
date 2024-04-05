@@ -18,8 +18,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   NEW_POINT_FORM: () => (/* binding */ NEW_POINT_FORM),
 /* harmony export */   POINTS_TYPES: () => (/* binding */ POINTS_TYPES)
 /* harmony export */ });
-const DESTINATIONS_COUNT = 1;
-const DESTINATIONS = ['Krasnodar', 'St. Petersburg', 'Mariupol', 'Pyatigorsk', 'Sochi', 'Vyborg', 'Kaliningrad', 'Samara', 'Kazan'];
+const DESTINATIONS_COUNT = 15;
+const DESTINATIONS = ['Krasnodar', 'St. Petersburg', 'Mariupol', 'Pyatigorsk', 'Sochi', 'Vyborg', 'Kaliningrad', 'Samara', 'Kazan', 'Melburn', 'Oslo', 'Hallstatt', 'Cassis', 'Danang', 'Tokyo', 'Chengdu', 'Samui', 'Mahe'];
 const POINTS_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const NEW_POINT_FORM = {
   id: 1,
@@ -212,27 +212,6 @@ function getRandomBoolean() {
   const randomNumber = Math.random();
   return randomNumber >= 0.5;
 }
-
-//создаем счетчик для генерации случайного ID
-
-/*const getRandomId = (min, max) => {
-  const previousValues = [];
-
-  const getValue = () => {
-    let currentValue = getRandomNumber(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomNumber(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-
-  return getValue;
-};*/
-
 
 
 /***/ }),
@@ -1298,4 +1277,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.f27cb1997d4634203c0b.js.map
+//# sourceMappingURL=bundle.0a25b812bdacb5686ec1.js.map

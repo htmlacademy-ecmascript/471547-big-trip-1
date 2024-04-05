@@ -487,9 +487,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-//const destinationsCount = getRandomNumber(1, DESTINATIONS.length);
-
 class MockData {
   destinations = [];
   offers = [];
@@ -616,29 +613,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
 
 function createFiltersListTemplate() {
-  return `<form class="trip-filters" action="#" method="get">
-  <div class="trip-filters__filter">
-    <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything">
-    <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
-  </div>
+  return `
+    <form class="trip-filters" action="#" method="get">
+      <div class="trip-filters__filter">
+        <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything">
+        <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
+      </div>
 
-  <div class="trip-filters__filter">
-    <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
-    <label class="trip-filters__filter-label" for="filter-future">Future</label>
-  </div>
+      <div class="trip-filters__filter">
+        <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
+        <label class="trip-filters__filter-label" for="filter-future">Future</label>
+      </div>
 
-  <div class="trip-filters__filter">
-    <input id="filter-present" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="present">
-    <label class="trip-filters__filter-label" for="filter-present">Present</label>
-  </div>
+      <div class="trip-filters__filter">
+        <input id="filter-present" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="present">
+        <label class="trip-filters__filter-label" for="filter-present">Present</label>
+      </div>
 
-  <div class="trip-filters__filter">
-    <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past" checked>
-    <label class="trip-filters__filter-label" for="filter-past">Past</label>
-  </div>
+      <div class="trip-filters__filter">
+        <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past" checked>
+        <label class="trip-filters__filter-label" for="filter-past">Past</label>
+      </div>
 
-  <button class="visually-hidden" type="submit">Accept filter</button>
-</form>`;
+      <button class="visually-hidden" type="submit">Accept filter</button>
+    </form>
+  `;
 }
 class FiltersListView {
   getTemplate() {
@@ -671,17 +670,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
 
 function createHeaderInfoTemplate() {
-  return `<section class="trip-main__trip-info  trip-info">
-  <div class="trip-info__main">
-    <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
+  return `
+    <section class="trip-main__trip-info  trip-info">
+      <div class="trip-info__main">
+        <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
 
-    <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
-  </div>
+        <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
+      </div>
 
-  <p class="trip-info__cost">
-    Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
-  </p>
-</section>`;
+      <p class="trip-info__cost">
+        Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+      </p>
+    </section>
+  `;
 }
 class HeaderInfoView {
   getTemplate() {
@@ -722,33 +723,37 @@ __webpack_require__.r(__webpack_exports__);
 
 function createPointsTypeList(types, type) {
   return types.map(item => `
-  <div class="event__type-item">
-    <input id="event-type-${item.type}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${item.type}" ${item === type ? 'checked' : ''}>
-    <label class="event__type-label  event__type-label--${item.type}" for="event-type-${item.type}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_2__.capitalizeFirstLetter)(item)}</label>
-  </div>`).join('');
+    <div class="event__type-item">
+      <input id="event-type-${item.type}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${item.type}" ${item === type ? 'checked' : ''}>
+      <label class="event__type-label  event__type-label--${item.type}" for="event-type-${item.type}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_2__.capitalizeFirstLetter)(item)}</label>
+    </div>
+  `).join('');
 }
 
 //создаем шаблон для офферов
 
 function createOffersTemplate(offers, type, id) {
   return offers.map(offer => `
-  <div class="event__offer-selector">
-    <input class="event__offer-checkbox visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" ${offers.includes(id) ? 'checked' : ''}>
-    <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
-        <span class="event__offer-title">${offer.title}</span>
-          &plus;&euro;&nbsp;
-        <span class="event__offer-price">${offer.price}</span>
-      </label>
-  </div>`).join('');
+    <div class="event__offer-selector">
+      <input class="event__offer-checkbox visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" ${offers.includes(id) ? 'checked' : ''}>
+      <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
+          <span class="event__offer-title">${offer.title}</span>
+            &plus;&euro;&nbsp;
+          <span class="event__offer-price">${offer.price}</span>
+        </label>
+    </div>
+  `).join('');
 }
 
 //создаем шаблон для списка направлений
 
 function createDestinationsList(destinations, point) {
   return destinations.map(city => `
-  <input class="event__input  event__input--destination" id="event-destination-${point.id}" type="text" name="event-destination" value="${city.name}" list="destination-list-${point.id}">
+    <input class="event__input  event__input--destination" id="event-destination-${point.id}" type="text" name="event-destination" value="${city.name}" list="destination-list-${point.id}">
     <datalist id="destination-list-${point.id}">
-      <option value="${city.name}"></option>`).join('');
+      <option value="${city.name}"></option>
+    </datalist>
+  `).join('');
 }
 
 //создаем шаблон для направления
@@ -760,29 +765,33 @@ function createDestinationTemplate(destination) {
   } = destination;
   const photosTemplate = createPhotosTemplate(photos);
   const descriptionTemplate = createDescriptionTemplate(description);
-  return `<section class="event__section  event__section--destination">
-    ${descriptionTemplate}
-    ${photosTemplate}
-  </section>`;
+  return `
+    <section class="event__section  event__section--destination">
+      ${descriptionTemplate}
+      ${photosTemplate}
+    </section>
+  `;
 }
 
 //создаем шаблон для фото под направление
 
 function createPhotosTemplate(photos) {
   return `
-  <div class="event__photos-container">
-    <div class="event__photos-tape">
-      ${photos.map(item => `<img class="event__photo" src="${item.src}" alt="${item.description}">`).join('')}
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+        ${photos.map(item => `<img class="event__photo" src="${item.src}" alt="${item.description}">`).join('')}
+      </div>
     </div>
-  </div>`;
+  `;
 }
 
 //создаем описание направления
 
 function createDescriptionTemplate(destination) {
   return `
-  <h3 class="event__section-title  event__section-title--destination">${destination.name}</h3>
-  <p class="event__destination-description">${destination.description}</p>`;
+    <h3 class="event__section-title  event__section-title--destination">${destination.name}</h3>
+    <p class="event__destination-description">${destination.description}</p>
+  `;
 }
 
 //создаем шаблон поинта
@@ -813,72 +822,73 @@ function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_
   const startTimeInForm = (0,_utils_js__WEBPACK_IMPORTED_MODULE_2__.humanizeDate)(dateFrom, _const_js__WEBPACK_IMPORTED_MODULE_1__.DateFormat.DATE_IN_FORM); //время старта ивента
   const endTimeInForm = (0,_utils_js__WEBPACK_IMPORTED_MODULE_2__.humanizeDate)(dateTo, _const_js__WEBPACK_IMPORTED_MODULE_1__.DateFormat.DATE_IN_FORM); //время финиша ивента
 
-  return `<form class="event event--edit" action="#" method="post">
-  <header class="event__header">
-    <div class="event__type-wrapper">
-      <label class="event__type  event__type-btn" for="event-type-toggle-${point.id}">
-        <span class="visually-hidden">Choose event type</span>
-        <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="${type}">
-      </label>
-      <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${point.id}" type="checkbox">
+  return `
+    <form class="event event--edit" action="#" method="post">
+      <header class="event__header">
+        <div class="event__type-wrapper">
+          <label class="event__type  event__type-btn" for="event-type-toggle-${point.id}">
+            <span class="visually-hidden">Choose event type</span>
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="${type}">
+          </label>
+          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${point.id}" type="checkbox">
 
-      <div class="event__type-list">
-        <fieldset class="event__type-group">
-          <legend class="visually-hidden">Event type</legend>
+          <div class="event__type-list">
+            <fieldset class="event__type-group">
+              <legend class="visually-hidden">Event type</legend>
 
-          ${typesList}
+              ${typesList}
 
-        </fieldset>
-      </div>
-    </div>
+            </fieldset>
+          </div>
+        </div>
 
-    <div class="event__field-group  event__field-group--destination">
-      <label class="event__label  event__type-output" for="event-destination-${point.id}">
-        ${type}
-      </label>
+        <div class="event__field-group  event__field-group--destination">
+          <label class="event__label  event__type-output" for="event-destination-${point.id}">
+            ${type}
+          </label>
 
-      ${destinationsList}
+          ${destinationsList}
 
-      </datalist>
-    </div>
+        </div>
 
-    <div class="event__field-group  event__field-group--time">
-      <label class="visually-hidden" for="event-start-time-${point.id}">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-${point.id}" type="text" name="event-start-time" value="${startTimeInForm}">
-      &mdash;
-      <label class="visually-hidden" for="event-end-time-${point.id}">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-${point.id}" type="text" name="event-end-time" value="${endTimeInForm}">
-    </div>
+        <div class="event__field-group  event__field-group--time">
+          <label class="visually-hidden" for="event-start-time-${point.id}">From</label>
+          <input class="event__input  event__input--time" id="event-start-time-${point.id}" type="text" name="event-start-time" value="${startTimeInForm}">
+          &mdash;
+          <label class="visually-hidden" for="event-end-time-${point.id}">To</label>
+          <input class="event__input  event__input--time" id="event-end-time-${point.id}" type="text" name="event-end-time" value="${endTimeInForm}">
+        </div>
 
-    <div class="event__field-group  event__field-group--price">
-      <label class="event__label" for="event-price-${point.id}">
-        <span class="visually-hidden">Price</span>
-        &euro;
-      </label>
-      <input class="event__input  event__input--price" id="event-price-${point.id}" type="text" name="event-price" value="${price}">
-    </div>
+        <div class="event__field-group  event__field-group--price">
+          <label class="event__label" for="event-price-${point.id}">
+            <span class="visually-hidden">Price</span>
+            &euro;
+          </label>
+          <input class="event__input  event__input--price" id="event-price-${point.id}" type="text" name="event-price" value="${price}">
+        </div>
 
-    <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Delete</button>
-    <button class="event__rollup-btn" type="button">
-      <span class="visually-hidden">Open event</span>
-    </button>
-  </header>
-  <section class="event__details">
-    <section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+        <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+        <button class="event__reset-btn" type="reset">Delete</button>
+        <button class="event__rollup-btn" type="button">
+          <span class="visually-hidden">Open event</span>
+        </button>
+      </header>
+      <section class="event__details">
+        <section class="event__section  event__section--offers">
+          <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-      <div class="event__available-offers">
+          <div class="event__available-offers">
 
-        ${offersTemplate}
+            ${offersTemplate}
 
-      </div>
-    </section>
+          </div>
+        </section>
 
-    ${destinationTemplate}
+        ${destinationTemplate}
 
-  </section>
-</form>`;
+      </section>
+    </form>
+  `;
 }
 class PointFormView {
   constructor({
@@ -920,7 +930,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
 
 function createPointListItem() {
-  return '<li class="trip-events__item"></li>';
+  return `
+    <li class="trip-events__item"></li>
+  `;
 }
 class PointItem {
   getTemplate() {
@@ -954,7 +966,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function createTripListTemplate() {
   return `
-  <ul class="trip-events__list"></ul>`;
+    <ul class="trip-events__list"></ul>
+  `;
 }
 class PointsListView {
   getTemplate() {
@@ -987,32 +1000,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
 
 function createListSortingTemplate() {
-  return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
-  <div class="trip-sort__item  trip-sort__item--day">
-    <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day">
-    <label class="trip-sort__btn" for="sort-day">Day</label>
-  </div>
+  return `
+    <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+      <div class="trip-sort__item  trip-sort__item--day">
+        <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day">
+        <label class="trip-sort__btn" for="sort-day">Day</label>
+      </div>
 
-  <div class="trip-sort__item  trip-sort__item--event">
-    <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
-    <label class="trip-sort__btn" for="sort-event">Event</label>
-  </div>
+      <div class="trip-sort__item  trip-sort__item--event">
+        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
+        <label class="trip-sort__btn" for="sort-event">Event</label>
+      </div>
 
-  <div class="trip-sort__item  trip-sort__item--time">
-    <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
-    <label class="trip-sort__btn" for="sort-time">Time</label>
-  </div>
+      <div class="trip-sort__item  trip-sort__item--time">
+        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
+        <label class="trip-sort__btn" for="sort-time">Time</label>
+      </div>
 
-  <div class="trip-sort__item  trip-sort__item--price">
-    <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price" checked>
-    <label class="trip-sort__btn" for="sort-price">Price</label>
-  </div>
+      <div class="trip-sort__item  trip-sort__item--price">
+        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price" checked>
+        <label class="trip-sort__btn" for="sort-price">Price</label>
+      </div>
 
-  <div class="trip-sort__item  trip-sort__item--offer">
-    <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled>
-    <label class="trip-sort__btn" for="sort-offer">Offers</label>
-  </div>
-</form>`;
+      <div class="trip-sort__item  trip-sort__item--offer">
+        <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled>
+        <label class="trip-sort__btn" for="sort-offer">Offers</label>
+      </div>
+    </form>
+  `;
 }
 class SortingView {
   getTemplate() {
@@ -1067,38 +1082,40 @@ function createTripListTemplate({
     isFavorite,
     type
   } = point;
-  return `<div class="event">
-      <time class="event__date" datetime="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
-      <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
-      </div>
-      <h3 class="event__title">${type} ${pointDestination.name}</h3>
-      <div class="event__schedule">
-        <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
-          &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateTo)}</time>
+  return `
+    <div class="event">
+        <time class="event__date" datetime="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
+        <div class="event__type">
+          <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
+        </div>
+        <h3 class="event__title">${type} ${pointDestination.name}</h3>
+        <div class="event__schedule">
+          <p class="event__time">
+            <time class="event__start-time" datetime="2019-03-18T10:30">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
+            &mdash;
+            <time class="event__end-time" datetime="2019-03-18T11:00">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateTo)}</time>
+          </p>
+          <p class="event__duration">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.calcPointDuration)(dateFrom, dateTo)}</p>
+        </div>
+        <p class="event__price">
+          &euro;&nbsp;<span class="event__price-value">${price}</span>
         </p>
-        <p class="event__duration">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.calcPointDuration)(dateFrom, dateTo)}</p>
-      </div>
-      <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${price}</span>
-      </p>
-      <h4 class="visually-hidden">Offers:</h4>
-      <ul class="event__selected-offers">
-      ${createOffersListTemplate(pointOffers)}
-      </ul>
+        <h4 class="visually-hidden">Offers:</h4>
+        <ul class="event__selected-offers">
+        ${createOffersListTemplate(pointOffers)}
+        </ul>
 
-      <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active"' : ''} type="button">
-        <span class="visually-hidden">Add to favorite</span>
-        <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
-          <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
-        </svg>
-      </button>
-      <button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
-      </button>
-    </div>`;
+        <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active"' : ''} type="button">
+          <span class="visually-hidden">Add to favorite</span>
+          <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
+            <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
+          </svg>
+        </button>
+        <button class="event__rollup-btn" type="button">
+          <span class="visually-hidden">Open event</span>
+        </button>
+    </div>
+  `;
 }
 class TripView {
   constructor({
@@ -1281,4 +1298,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.ba2b4d86448dd7c2aa66.js.map
+//# sourceMappingURL=bundle.76c2dd44e683d9213530.js.map

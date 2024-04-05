@@ -161,12 +161,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mock_utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mock-utils.js */ "./src/mock/mock-utils.js");
 
 
+
 const createPoint = (type, destinationId, offersIds) => ({
   id: crypto.randomUUID(),
   type,
   destination: destinationId,
-  dateFrom: new Date('2024-02-29, 21:00'),
-  dateTo: new Date('2024-03-03, 21:00'),
+  dateFrom: (0,_mock_utils_js__WEBPACK_IMPORTED_MODULE_1__.getRandomDate)(new Date(), new Date(2025, 0, 1)),
+  dateTo: (0,_mock_utils_js__WEBPACK_IMPORTED_MODULE_1__.getRandomDate)(new Date(2025, 0, 1), new Date(2029, 0, 1)),
   price: (0,_mock_utils_js__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(_mock_const_js__WEBPACK_IMPORTED_MODULE_0__.RandomPrice.MIN, _mock_const_js__WEBPACK_IMPORTED_MODULE_0__.RandomPrice.MAX),
   offers: offersIds,
   isFavourite: (0,_mock_utils_js__WEBPACK_IMPORTED_MODULE_1__.getRandomBoolean)()
@@ -186,9 +187,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getRandomArrayElement: () => (/* binding */ getRandomArrayElement),
 /* harmony export */   getRandomBoolean: () => (/* binding */ getRandomBoolean),
+/* harmony export */   getRandomDate: () => (/* binding */ getRandomDate),
 /* harmony export */   getRandomInteger: () => (/* binding */ getRandomInteger),
 /* harmony export */   getRandomNumber: () => (/* binding */ getRandomNumber)
 /* harmony export */ });
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dayjs_plugin_duration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs/plugin/duration */ "./node_modules/dayjs/plugin/duration.js");
+/* harmony import */ var dayjs_plugin_duration__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_duration__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/relativeTime */ "./node_modules/dayjs/plugin/relativeTime.js");
+/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_duration__WEBPACK_IMPORTED_MODULE_1___default()));
+dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2___default()));
+
 //получаем случайное число из заданного диапазона
 
 const getRandomNumber = (a, b) => {
@@ -212,6 +226,10 @@ function getRandomBoolean() {
   const randomNumber = Math.random();
   return randomNumber >= 0.5;
 }
+
+//получаем случайную дату
+
+const getRandomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 
 /***/ }),
@@ -785,7 +803,7 @@ function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_
 
   const destinationsList = createDestinationsList(destinations); //выбор направления в меню
   const destinationTemplate = createDestinationTemplate(pointDestination); //создаем шаблон для блочка Destination
-  console.log(destinationTemplate);
+
   //офферы
 
   const offersTemplate = createOffersTemplate(pointOffers); //собираем актуальные офферы под поинт
@@ -1036,6 +1054,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../render.js */ "./src/render.js");
 /* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils.js */ "./src/utils.js");
+/* harmony import */ var _const_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../const.js */ "./src/const.js");
+
 
 
 function createOffersListTemplate(pointOffers) {
@@ -1059,18 +1079,21 @@ function createTripListTemplate({
     isFavorite,
     type
   } = point;
+  const startDateShort = (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom, _const_js__WEBPACK_IMPORTED_MODULE_2__.DateFormat.DATE);
+  const startTime = (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom, _const_js__WEBPACK_IMPORTED_MODULE_2__.DateFormat.TIME);
+  const endTime = (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateTo, _const_js__WEBPACK_IMPORTED_MODULE_2__.DateFormat.TIME);
   return `
     <div class="event">
-        <time class="event__date" datetime="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
+        <time class="event__date" datetime="${startDateShort}">${startDateShort}</time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${type} ${pointDestination.name}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T10:30">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateFrom)}</time>
+            <time class="event__start-time" datetime="2019-03-18T10:30">${startTime}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T11:00">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeDate)(dateTo)}</time>
+            <time class="event__end-time" datetime="2019-03-18T11:00">${endTime}</time>
           </p>
           <p class="event__duration">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.calcPointDuration)(dateFrom, dateTo)}</p>
         </div>
@@ -1275,4 +1298,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.f31675e2ab025ded1da9.js.map
+//# sourceMappingURL=bundle.2c009f77a74f10a8471d.js.map

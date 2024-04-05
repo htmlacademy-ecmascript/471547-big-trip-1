@@ -396,14 +396,15 @@ class TripPresenter {
     (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.render)(new _view_point_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
       point: this.points[0],
       pointOffers: this.offersModel.getByType(this.points[0].type),
-      pointDestination: this.destinationsModel.getById(this.points[0].destination)
+      pointDestination: this.destinationsModel.getById(this.points[0].destination),
+      destinations: this.destinationsModel.get()
     }), this.pointItemComponent.getElement()); //определяем форму в первый li
 
     this.points.forEach(point => {
       (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.render)(new _view_trip_view_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
         point,
-        pointDestination: this.destinationsModel.getById(point.destination),
-        pointOffers: this.offersModel.getByType(point.type)
+        pointOffers: this.offersModel.getByType(point.type),
+        pointDestination: this.destinationsModel.getById(point.destination)
       }), this.pointsListComponent.getElement()); //рендерим поинт (закрытая карточка) в li
     });
   }
@@ -506,7 +507,7 @@ class MockData {
       const hasOffers = (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomNumber)(0, 1);
       const offersByType = this.offers.find(offerByType => offerByType.type === type);
       const offersIds = hasOffers ? offersByType.offers.slice(0, (0,_mock_mock_utils_js__WEBPACK_IMPORTED_MODULE_2__.getRandomNumber)(0, _mock_mock_const_js__WEBPACK_IMPORTED_MODULE_1__.OFFERS_COUNT)).map(offer => offer.id) : [];
-      return (0,_mock_mock_point_js__WEBPACK_IMPORTED_MODULE_5__.createPoint)(type, offersIds, destinationId);
+      return (0,_mock_mock_point_js__WEBPACK_IMPORTED_MODULE_5__.createPoint)(type, destinationId, offersIds);
     });
   }
 }
@@ -726,24 +727,20 @@ function createOffersTemplate(offers, type, id) {
 
 //создаем шаблон для списка направлений
 
-function createDestinationsList(destinations, point) {
-  return destinations.map(city => `
-    <input class="event__input  event__input--destination" id="event-destination-${point.id}" type="text" name="event-destination" value="${city.name}" list="destination-list-${point.id}">
-    <datalist id="destination-list-${point.id}">
-      <option value="${city.name}"></option>
-    </datalist>
-  `).join('');
+function createDestinationsList(destinations) {
+  return `
+    ${destinations.map(city => `<option value="${city.name}"></option>`).join('')}
+  `;
 }
 
 //создаем шаблон для направления
 
-function createDestinationTemplate(destination) {
+function createDestinationTemplate(pointDestination) {
   const {
-    photos,
-    description
-  } = destination;
+    photos
+  } = pointDestination;
   const photosTemplate = createPhotosTemplate(photos);
-  const descriptionTemplate = createDescriptionTemplate(description);
+  const descriptionTemplate = createDescriptionTemplate(pointDestination);
   return `
     <section class="event__section  event__section--destination">
       ${descriptionTemplate}
@@ -766,16 +763,16 @@ function createPhotosTemplate(photos) {
 
 //создаем описание направления
 
-function createDescriptionTemplate(destination) {
+function createDescriptionTemplate(pointDestination) {
   return `
-    <h3 class="event__section-title  event__section-title--destination">${destination.name}</h3>
-    <p class="event__destination-description">${destination.description}</p>
+    <h3 class="event__section-title  event__section-title--destination">${pointDestination.name}</h3>
+    <p class="event__destination-description">${pointDestination.description}</p>
   `;
 }
 
 //создаем шаблон поинта
 
-function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM, pointOffers, destinations) {
+function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM, pointOffers, pointDestination, destinations) {
   const {
     type,
     dateFrom,
@@ -786,12 +783,9 @@ function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_
 
   //направления
 
-  const destinationsList = createDestinationsList(destinations, point); //выбор направления в меню
-
-  const pointDestination = destinations.find(city => city.id === point.destination); // отбираем направление для поинта
-
+  const destinationsList = createDestinationsList(destinations); //выбор направления в меню
   const destinationTemplate = createDestinationTemplate(pointDestination); //создаем шаблон для блочка Destination
-
+  console.log(destinationTemplate);
   //офферы
 
   const offersTemplate = createOffersTemplate(pointOffers); //собираем актуальные офферы под поинт
@@ -826,8 +820,10 @@ function createPointTemplate(point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_
             ${type}
           </label>
 
+          <input class="event__input  event__input--destination" id="event-destination-${point.id}" type="text" name="event-destination" value="${pointDestination.name}" list="destination-list-${point.id}">
+          <datalist id="destination-list-${point.id}">
           ${destinationsList}
-
+          </datalist>
         </div>
 
         <div class="event__field-group  event__field-group--time">
@@ -873,14 +869,16 @@ class PointFormView {
   constructor({
     point = _const_js__WEBPACK_IMPORTED_MODULE_1__.NEW_POINT_FORM,
     pointOffers,
+    pointDestination,
     destinations
   }) {
     this.point = point;
     this.pointOffers = pointOffers;
-    this.pointDestination = destinations;
+    this.pointDestination = pointDestination;
+    this.destinations = destinations;
   }
   getTemplate() {
-    return createPointTemplate(this.point, this.destinations, this.pointOffers);
+    return createPointTemplate(this.point, this.pointOffers, this.pointDestination, this.destinations);
   }
   getElement() {
     if (!this.element) {
@@ -1051,8 +1049,8 @@ function createOffersListTemplate(pointOffers) {
 }
 function createTripListTemplate({
   point,
-  pointDestination,
-  pointOffers
+  pointOffers,
+  pointDestination
 }) {
   const {
     price,
@@ -1099,18 +1097,18 @@ function createTripListTemplate({
 class TripView {
   constructor({
     point,
-    pointDestination,
-    pointOffers
+    pointOffers,
+    pointDestination
   }) {
     this.point = point;
-    this.pointDestination = pointDestination;
     this.pointOffers = pointOffers;
+    this.pointDestination = pointDestination;
   }
   getTemplate() {
     return createTripListTemplate({
       point: this.point,
-      pointDestination: this.pointDestination,
-      pointOffers: this.pointOffers
+      pointOffers: this.pointOffers,
+      pointDestination: this.pointDestination
     });
   }
   getElement() {
@@ -1277,4 +1275,4 @@ mainPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.0a25b812bdacb5686ec1.js.map
+//# sourceMappingURL=bundle.f31675e2ab025ded1da9.js.map

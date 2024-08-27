@@ -96,18 +96,18 @@ function createDescriptionTemplate(pointDestination) {
 
 function createButtonTemplate(isCreating, isDisabled, isDeleting) {
   if (isCreating) {
-    return `
+    return (`
     <button class="event__reset-btn" type="reset">Cancel</button>
-  `;
+  `);
   }
-  return `
+  return (`
     <button class="event__reset-btn" ${isDisabled ? 'disabled' : ''} type="reset">
         ${isDeleting ? 'Deleting...' : 'Delete'}
     </button>
     <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
     </button>
-  `;
+  `);
 }
 
 //создаем шаблон поинта
@@ -230,9 +230,10 @@ export default class PointFormEditView extends AbstractStatefulView {
   #allDestinations = null;
   #handleFormSubmit = null;
   #handleCloseEditFormButton = null;
+  #handleDeletePointSubmit = null;
   #datePickerFrom = null;
   #datePickerTo = null;
-  #currentformType = FORM_TYPE.EDITING;
+  #currentformType = null;
 
   constructor (
     {
@@ -241,6 +242,7 @@ export default class PointFormEditView extends AbstractStatefulView {
       allDestinations,
       onFormSubmit,
       onCloseEditFormButton,
+      onDeletePointSubmit,
       formType
     }
   ) {
@@ -250,8 +252,9 @@ export default class PointFormEditView extends AbstractStatefulView {
     this.#allDestinations = allDestinations;
     this.#handleFormSubmit = onFormSubmit;
     this.#handleCloseEditFormButton = onCloseEditFormButton;
-    this._restoreHandlers();
+    this.#handleDeletePointSubmit = onDeletePointSubmit;
     this.#currentformType = formType;
+    this._restoreHandlers();
   }
 
   get template() {
@@ -261,11 +264,11 @@ export default class PointFormEditView extends AbstractStatefulView {
   _restoreHandlers() {
     if(this.#currentformType === FORM_TYPE.EDITING) {
       this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeEditFormButtonHandler);
-      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteHandler);
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#onDeletePointSubmit);
     }
 
     if(this.#currentformType === FORM_TYPE.CREATING) {
-      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteHandler);
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#onDeletePointSubmit);
     }
 
     this.element.addEventListener('submit', this.#formSubmitHandler);
@@ -391,16 +394,26 @@ export default class PointFormEditView extends AbstractStatefulView {
     }
   }
 
-  #formDeleteHandler = (evt) => {
+  #onDeletePointSubmit = (evt) => {
     evt.preventDefault();
-    this.#handleCloseEditFormButton();
+    this.#handleDeletePointSubmit(this._state);
   };
 
   static parsePointToState(point) {
-    return {...point};
+    return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false
+    };
   }
 
   static parseStateToPoint(state) {
-    return {...state};
+    const point = {...state};
+
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
+    return point;
   }
 }

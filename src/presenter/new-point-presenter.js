@@ -33,7 +33,7 @@ export default class NewPointPresenter {
       allOffers: this.#offersModel.get(),
       allDestinations: this.#destinationsModel.get(),
       onFormSubmit: this.#handleFormSubmit,
-      onCloseEditFormButton: this.#handleCloseEditFormButton,
+      onDeletePointSubmit: this.#handleDeletePointSubmit,
       formType: FORM_TYPE.CREATING,
     });
 
@@ -41,14 +41,14 @@ export default class NewPointPresenter {
     document.addEventListener('keydown', this.#escKeyEventEdit);
   }
 
-  destroy({isCanceled = true} = {}) {
+  destroy() {
 
     if (!this.#addPointComponent) {
       return;
 
     }
 
-    this.#handleDestroy({isCanceled});
+    this.#handleDestroy();
     remove(this.#addPointComponent);
     this.#addPointComponent = null;
     document.removeEventListener('keydown', this.#escKeyEventEdit);
@@ -75,15 +75,15 @@ export default class NewPointPresenter {
     this.#addPointComponent.shake(resetFormState);
   };
 
-  #handleCloseEditFormButton = () => {
-    this.destroy({isCanceled: true});
+  #handleDeletePointSubmit = () => {
+    this.destroy();
   };
 
   #handleFormSubmit = (point) => {
     this.#onDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      point
+      {...point},
     );
     document.addEventListener('keydown', this.#escKeyEventEdit);
   };
@@ -91,7 +91,8 @@ export default class NewPointPresenter {
   #escKeyEventEdit = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      this.destroy({isCanceled: true});
+      this.destroy();
     }
   };
+
 }

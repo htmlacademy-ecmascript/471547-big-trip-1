@@ -54,6 +54,7 @@ export default class PointPresenter {
       allDestinations: this.#destinationsModel.get(),
       onFormSubmit: this.#pointEditSubmitHandler,
       onCloseEditFormButton: this.#pointCloseEditHandler,
+      onDeletePointSubmit: this.#handleDeletePointSubmit,
       formType: FORM_TYPE.EDITING,
     });
 
@@ -127,9 +128,34 @@ export default class PointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
+  #handleDeletePointSubmit = (point) => {
+    this.#onDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point
+    );
+  };
+
   #pointFavouriteHandler = () => {
     this.#onDataChange(UserAction.UPDATE_POINT,
-      UpdateType.PATCH, {...this.#point, isFavourite: !this.#point.isFavourite});
+      UpdateType.PATCH, {...this.#point, 'is_favorite': !this.#point.is_favorite});
+  };
+
+  setAborting = () => {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#pointComponent.shake();
+      return;
+    }
+
+    const resetFormState = () => {
+      this.#editPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#editPointComponent.shake(resetFormState);
   };
 
   setSaving = () => {
@@ -141,24 +167,6 @@ export default class PointPresenter {
     }
   };
 
-  setAborting = () => {
-    if (this.#mode === Mode.DEFAULT) {
-      this.#editPointComponent.shake();
-      return;
-    }
-
-    if (this.#mode === Mode.EDITING) {
-      const resetFormState = () => {
-        this.#editPointComponent.updateElement({
-          isDisabled: false,
-          isSaving: false,
-          isDeleting: false,
-        });
-      };
-
-      this.#editPointComponent.shake(resetFormState);
-    }
-  };
 
   setRemove = () => {
     if (this.#mode === Mode.EDITING) {
@@ -168,5 +176,14 @@ export default class PointPresenter {
       });
     }
   };
+
+  setDeleting() {
+    if (this.#mode === Mode.EDITING) {
+      this.#editPointComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  }
 }
 

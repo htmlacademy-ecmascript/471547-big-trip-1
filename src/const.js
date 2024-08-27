@@ -1,4 +1,4 @@
-const DESTINATIONS_COUNT = 15;
+const DESTINATIONS_COUNT = 5;
 
 const DESTINATIONS = [
   'Krasnodar',
@@ -41,13 +41,13 @@ const FiltersTypes = {
 };
 
 const NEW_POINT_FORM = {
-  id: 1,
-  type: 'bus',
-  offers: [],
-  destination: '',
+  basePrice: 0,
   dateFrom: '',
   dateTo: '',
-  price: 0
+  destination: '',
+  'is_favorite': false,
+  offers: [],
+  type: 'bus',
 };
 
 const DateFormat = {
